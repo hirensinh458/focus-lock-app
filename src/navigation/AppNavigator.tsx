@@ -4,16 +4,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../app/HomeScreen';
 import CreateTaskScreen from '../app/CreateTaskScreen';
 import TaskDetailScreen from '../app/TaskDetailScreen';
+import PermissionScreen from '../app/PermissionScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0A0A0F' } }}>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="CreateTask" component={CreateTaskScreen} />
         <Stack.Screen name="TaskDetail" component={TaskDetailScreen} />
+        <Stack.Screen name="Permissions" component={PermissionScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

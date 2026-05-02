@@ -1,0 +1,19 @@
+Creating the Project
+
+	npx @react-native-community/cli@latest init FocusLockApp
+
+RUNNING THE APP FOR DEVELOPMENT BUILD : 
+	
+	npx react-native start	
+
+	Run the ADB Reverse Command
+	This is the most critical step for USB debugging. Your phone needs to know where to find the bundler that's now running on your computer.
+
+	Open a brand new, separate command prompt or terminal window.
+
+	Navigate to your project folder: cd FocusLockApp
+
+	Run the following command to set up a direct link:
+
+	bash
+	adb reverse tcp:8081 tcp:8081

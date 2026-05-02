@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TempApp</string>
+    <string name="app_name">FocusLockApp</string>
+    <string name="accessibility_service_description">FocusLock needs Accessibility access to detect and block distracting apps while your task is active.</string>
 </resources>

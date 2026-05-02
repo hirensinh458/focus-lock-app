@@ -1,14 +1,13 @@
 export const COLORS = {
-  primary: '#FF4D00',
-  background: '#0A0A0F',
-  surface: '#12121A',
-  border: '#2A2A3A',
-  textPrimary: '#F0F0FF',
+  primary: '#6C63FF',
+  background: '#0D0D1A',
+  surface: '#1A1A2E',
+  border: '#2A2A4A',
+  textPrimary: '#FFFFFF',
   textSecondary: '#8888AA',
-  success: '#00D97E',
-  warning: '#FFB020',
-  danger: '#FF3860',
   white: '#FFFFFF',
+  danger: '#FF4444',
+  success: '#4CAF50',
 };
 
 export const STORAGE_KEYS = {
