@@ -40,39 +40,44 @@ public class AppBlockerModule extends ReactContextBaseJavaModule {
     // ─── Get Installed Apps ──────────────────────────────────────────────────
 
     @ReactMethod
-    public void getInstalledApps(Promise promise) {
-        try {
-            PackageManager pm = getReactApplicationContext().getPackageManager();
-            Intent intent = new Intent(Intent.ACTION_MAIN, null);
-            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+public void getInstalledApps(Promise promise) {
+    try {
+        PackageManager pm = getReactApplicationContext().getPackageManager();
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-            List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
+        List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
 
-            // Sort alphabetically
-            Collections.sort(apps, new Comparator<ResolveInfo>() {
-                @Override
-                public int compare(ResolveInfo a, ResolveInfo b) {
-                    return a.loadLabel(pm).toString()
-                            .compareToIgnoreCase(b.loadLabel(pm).toString());
-                }
-            });
-
-            WritableArray result = Arguments.createArray();
-            for (ResolveInfo info : apps) {
-                String packageName = info.activityInfo.packageName;
-                if (packageName.equals("com.focuslockapp")) continue;
-
-                String appName = info.loadLabel(pm).toString();
-                WritableMap map = Arguments.createMap();
-                map.putString("packageName", packageName);
-                map.putString("displayName", appName);
-                result.pushMap(map);
+        // Sort alphabetically
+        Collections.sort(apps, new Comparator<ResolveInfo>() {
+            @Override
+            public int compare(ResolveInfo a, ResolveInfo b) {
+                return a.loadLabel(pm).toString()
+                        .compareToIgnoreCase(b.loadLabel(pm).toString());
             }
-            promise.resolve(result);
-        } catch (Exception e) {
-            promise.reject("ERROR", "Failed to get installed apps: " + e.getMessage());
+        });
+
+        WritableArray result = Arguments.createArray();
+        // Track seen packages to avoid duplicates
+        java.util.Set<String> seen = new java.util.HashSet<>();
+
+        for (ResolveInfo info : apps) {
+            String packageName = info.activityInfo.packageName;
+            if (packageName.equals("com.focuslockapp")) continue;
+            if (seen.contains(packageName)) continue; // skip duplicates
+            seen.add(packageName);
+
+            String appName = info.loadLabel(pm).toString();
+            WritableMap map = Arguments.createMap();
+            map.putString("packageName", packageName);
+            map.putString("displayName", appName);
+            result.pushMap(map);
         }
+        promise.resolve(result);
+    } catch (Exception e) {
+        promise.reject("ERROR", "Failed to get installed apps: " + e.getMessage());
     }
+}
 
     // ─── Usage Stats Permission ──────────────────────────────────────────────
 
